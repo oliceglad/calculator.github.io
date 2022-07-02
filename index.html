@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор</title>
+  <link rel="stylesheet" href="choices.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <section class="calculator">
+    <div class="container">
+      <h1 class="calculator__title">
+        Калькулятор подсчета стоимости работ
+        в себестоимости снимка
+      </h1>
+      <div class="calculator__main">
+        <form action="" class="calculator__left">
+          <div class="calculator__fix">
+            <div class="calculator__form">
+              <div class="calculator__form__text">Количество работ сделано*</div>
+              <!-- MODIFIED добавлен id -->
+              <input type="text" class="calculator__input" id="done"
+                onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+              <div class="calculator__form__text">Количество работ по договору*</div>
+              <!-- MODIFIED добавлен id -->
+              <input type="text" class="calculator__input" id="document"
+                onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+              <div class="calculator__form__text">Количество работ описанных по заказу *</div>
+              <!-- MODIFIED добавлен id -->
+              <input type="text" class="calculator__input" id="order"
+                onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+              <div class="calculator__form__text">Фактическая стоимость работ</div>
+              <!-- MODIFIED добавлен id -->
+              <input type="text" class="calculator__input" id="cost"
+                onkeyup="this.value = this.value.replace(/[^\d]/g,'');">
+            </div>
+            <div class="calculator__select">
+              <div class="calculator__form__text">
+                Совпадает ли работы по договору
+                с фактической работой?
+              </div>
+              <div class="custom__select">
+                <!-- MODIFIED добавлен id -->
+                <select name="select" id="is_the_same_cost">
+                  <option value="1">Да</option>
+                  <option value="2">Нет</option>
+                </select>
+              </div>
+              <div class="calculator__form__text">
+                Найм сотрудникана период отпуска
+              </div>
+              <div class="custom__select">
+                <!-- MODIFIED добавлен id -->
+                <select name="select" id="holiday">
+                  <option value="1">Да</option>
+                  <option value="2">Нет</option>
+                  <option value="3">Доп.нагрузка</option>
+                </select>
+              </div>
+              <div class="calculator__form__text">
+                Процент доплаты по работам за нагрузку
+                в период отпуска основного сотрудника
+              </div>
+              <div class="custom__select off" id="percent">
+                <!-- MODIFIED добавлен id -->
+                <select name="select" id="percentage">
+                  <option value="">0 %</option>
+                  <option value="">10 %</option>
+                  <option value="">20 %</option>
+                  <option value="">30 %</option>
+                  <option value="">40 %</option>
+                  <option value="">50 %</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="calculator__center">
+            <button class="calculator__button">
+              Рассчитать
+            </button>
+          </div>
+          <div class="calculator__outcome">
+            <div class="calculator__price">
+              <div class="calculator__price__text">
+                Цена за описание
+                <br>
+                1 работ
+              </div>
+              <!-- MODIFIED добавлен id -->
+              <input type="text" class="calculator__price__print" id="price">
+            </div>
+
+            <div class="calculator__price">
+              <div class="calculator__price__text">
+                Затраты на содержание
+                <br>
+                по работам
+              </div>
+              <!-- MODIFIED добавлен id -->
+              <input type="text" class="calculator__price__print" id="expenses">
+            </div>
+          </div>
+        </form>
+        <div class="calculator__right">
+          <div class="calculator__info__title">
+            Как работает калькулятор?
+          </div>
+          <p class="calculator__info">
+            Для подскета стоимости работ оказания услуг в себестоимости
+            снимка необходимо заболнить обязательные пункты отмеченные *
+          </p>
+          <br>
+          <p class="calculator__info">
+            Так же необходимо сделать выбор в пунктах
+          </p>
+          <br>
+          <p class="calculator__info">
+            Совпадает ли работы по договору с фактической? Если зарплата не совпадает отметте в этом пункте Нет и в окне
+            Фактическая зарплата впишите сумму.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="choices.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+  <script>
+
+    var element = document.querySelectorAll('select');
+
+    for (var i = 0; i < element.length; i++) {
+      var choices = new Choices(element[i], {
+        searchEnabled: false,
+        itemSelectText: '',
+        placeholder: true,
+        placeholderValue: 1,
+      });
+
+
+    }
+
+    $('input').on("keyup", function () {
+      this.value = this.value.replace(/ /g, "");
+      this.value = this.value.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    });
+
+    const input = document.getElementById('cost');
+    const percent = document.getElementById('percent')
+
+    is_the_same_cost.addEventListener('change', function () {
+      if (this.value == '2') {
+        input.style.opacity = ".3";
+        input.oninput = e => {
+          e.target.value = '';
+        }
+      }
+
+      if (this.value == '1') {
+        input.style.opacity = "1";
+        input.oninput = e => {
+          input.oninput != e
+        }
+      }
+    }, false);
+
+    holiday.addEventListener('change', function () {
+      if (this.value == '1') {
+        percent.style.display = "none";
+      }
+
+      if (this.value == '2') {
+        percent.style.display = "none";
+      }
+
+      if (this.value == '3') {
+        percent.style.display = "block";
+        percent.classList.remove('off');
+      }
+    });
+
+
+  </script>
+</body>
+
+</html>
