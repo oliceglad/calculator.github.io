@@ -177,7 +177,7 @@ p, h1 {
   width: 20px;
   height: 8px;
   border-style: none;
-  background-image: url('Point.svg');
+  background-image: url('point.svg');
   background-repeat: no-repeat;
   transition-property: transform, background-image;
   transition-duration: .3s;
@@ -192,7 +192,7 @@ p, h1 {
   margin-top: -2.5px;
   transform: rotate(0deg);
   top: 50%;
-  background-image: url('Point.svg');
+  background-image: url('point.svg');
   z-index: 9;
 }
 
